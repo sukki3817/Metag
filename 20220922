@@ -1,0 +1,66 @@
+
+#Downloading the raw files
+cd $WORK/database
+mkdir 20220922
+cd 20220922
+sftp dneedham@download.ccga.uni-kiel.de
+2598AQ4J
+cd jf_needham_1139139_klbr9
+get *32*
+get *33*
+get *34*
+mkdir rest
+mv *md5 rest
+mv *zip rest
+
+
+
+#installing trimmomatic
+conda create -n trimmomatic
+conda activate trimmomatic
+conda install trimmomatic
+
+#quality trimming by trimmomatic
+for i in *R1*gz
+do 
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+sbatch -p cluster -t 4:00:00 --mem=100000 -J cat -o drep.out -e drep.err -n 30 --wrap="trimmomatic PE -threads 30 $R1 $R2 paired-$R1 unpaired-paired-$R1 paired-$R2 unpaired-$R2 ILLUMINACLIP:$HOME/anaconda3/envs/trimmomatic/share/trimmomatic-0.39-2/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:25:30 MINLEN:50"
+done
+
+
+#installing spades
+conda create -n spades-3.15.5
+conda install -c bioconda spades
+
+#assembly by spades
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+sbatch -p cluster -t 4:00:00 --mem=100000 -J cat -o drep.out -e drep.err -n 30 --wrap="spades.py --sc -m 100 --pe1-1 paired-$R1 --pe1-2 paired-$R2 -o spades.$filestem -t 32 -k 21,33,55,77,99,127"
+done
+
+
+#installing anvio
+#https://anvio.org/install/
+
+#anvio
+conda activate anvio-7.2
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem”_R1_001.fastq.gz”
+R2=$filestem”_R2_001.fastq.gz”
+#sbatch -p cluster -t 4:00:00 --mem=100000 -J cat -o drep.out -e drep.err -n 30 --wrap=“anvi-script-reformat-fasta -l 1000 --simplify-names --prefix c -o spades.$filestem/1k.contigs.fasta spades.$filestem/contigs.fasta”
+#bowtie2-build spades.$filestem/1k.contigs.fasta spades.$filestem/1k.contigs.fasta.bowtie.db
+#sbatch -p cluster -t 6:00:00 --mem=100000 -J cat -o drep.out -e drep.err -n 30 --wrap=“bowtie2 --threads 30 -x spades.$filestem/1k.contigs.fasta.bowtie.db -1 paired-$R1 -2 paired-$R2 --no-unal -S spades.$filestem/1k.contigs.fasta.bowtie.db.sam”
+#anvi-init-bam -o spades.$filestem/1k.contigs.fasta.bowtie.db.sam.bam spades.$filestem/1k.contigs.fasta.bowtie.db.sam
+#sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep.out -e drep.err -n 1 --wrap=“anvi-gen-contigs-database -f spades.$filestem/1k.contigs.fasta -o spades.$filestem/1k.contigs.fasta.db -n $filestem”
+#sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep.out -e drep.err -n 30 --wrap=“anvi-run-hmms -c spades.$filestem/1k.contigs.fasta.db --num-threads 30"
+sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep.out -e drep.err -n 30 --wrap=“anvi-profile -i spades.$filestem/1k.contigs.fasta.bowtie.db.sam.bam -c spades.$filestem/1k.contigs.fasta.db -T 30 -M 1000 --cluster-contigs -o spades.$filestem/1k.contigs.fasta.db.sam.bam_profile”
+done
+anvi-interactive -c 1k.contigs.fasta.db -p PROFILE.db
+anvi-summarize -c 1k.contigs.fasta.db -p PROFILE.db -C test -o test.out
