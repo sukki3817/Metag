@@ -47,6 +47,31 @@ done
 #installing anvio
 #https://anvio.org/install/
 
+
+####Solving an Error
+[Resolved]
+I had the same OpenSSL error while trying to install Scipy (and also with other packages) in Miniconda (latest version x64, downloaded from https://docs.conda.io/en/latest/miniconda.html), using
+conda install scipy
+
+@banikojp : I also download and installed the OpenSSL version 3.0.5 from https://slproweb.com/products/Win32OpenSSL.html
+and copied openssl.exe from ...\OpenSSL-Win64\bin\ to C:\Users\Username\anaconda3\Library\bin (replacing the Version 1.1. 1.17 that was already there), as you suggested. But this did not resolve the issue for me.
+
+The solution:
+The error message indicates it "CondaSSLError: OpenSSL appears to be unavailable on this machine. ..." I thought, it seems that conda is not searching for OpenSSL 3 installed but is specifically keyed to the version in C:\Users\c.uiberacker\Miniconda3\Library\bin and searches only there.
+Therefore adding C:\Users\c.uiberacker\Miniconda3\Library\bin to the PATH with
+
+set "PATH=%PATH%C:\Users\Username\Miniconda3\condabin;C:\Users\Username\Miniconda3\Library\bin;"
+
+did the job!
+
+#my command
+PATH=%PATH%C:\Users\Administrator\miniconda3\condabin;C:\Users\Administrator\Miniconda3\Library\bin;
+
+##another error
+PackagesNotFoundError: The following packages are not available from current channels:
+conda config --set restore_free_channel true
+
+
 #anvio
 conda activate anvio-7.2
 for i in `ls *R1*gz | grep -v paired`
