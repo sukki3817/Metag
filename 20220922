@@ -71,9 +71,15 @@ PATH=%PATH%C:\Users\Administrator\miniconda3\condabin;C:\Users\Administrator\Min
 PackagesNotFoundError: The following packages are not available from current channels:
 conda config --set restore_free_channel true
 
+#starting on Ubuntu
+ssh smomw536@nesh-fe.rz.uni-kiel.de
+cd $WORK/database/20220922
 
+
+##reading 
+https://merenlab.org/2016/06/22/anvio-tutorial-v2/
 #anvio
-conda activate anvio-7.2
+conda activate anvio-7.1
 for i in `ls *R1*gz | grep -v paired`
 do
 filestem=`basename $i _R1_001.fastq.gz`
@@ -81,11 +87,11 @@ R1=$filestem”_R1_001.fastq.gz”
 R2=$filestem”_R2_001.fastq.gz”
 #sbatch -p cluster -t 4:00:00 --mem=100000 -J cat -o drep.out -e drep.err -n 30 --wrap=“anvi-script-reformat-fasta -l 1000 --simplify-names --prefix c -o spades.$filestem/1k.contigs.fasta spades.$filestem/contigs.fasta”
 #bowtie2-build spades.$filestem/1k.contigs.fasta spades.$filestem/1k.contigs.fasta.bowtie.db
-#sbatch -p cluster -t 6:00:00 --mem=100000 -J cat -o drep.out -e drep.err -n 30 --wrap=“bowtie2 --threads 30 -x spades.$filestem/1k.contigs.fasta.bowtie.db -1 paired-$R1 -2 paired-$R2 --no-unal -S spades.$filestem/1k.contigs.fasta.bowtie.db.sam”
+#sbatch -p cluster -t 6:00:00 --mem=100000 -J cat -o drep2.out -e drep2.err -n 30 --wrap=“bowtie2 --threads 30 -x spades.$filestem/1k.contigs.fasta.bowtie.db -1 paired-$R1 -2 paired-$R2 --no-unal -S spades.$filestem/1k.contigs.fasta.bowtie.db.sam”
 #anvi-init-bam -o spades.$filestem/1k.contigs.fasta.bowtie.db.sam.bam spades.$filestem/1k.contigs.fasta.bowtie.db.sam
-#sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep.out -e drep.err -n 1 --wrap=“anvi-gen-contigs-database -f spades.$filestem/1k.contigs.fasta -o spades.$filestem/1k.contigs.fasta.db -n $filestem”
-#sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep.out -e drep.err -n 30 --wrap=“anvi-run-hmms -c spades.$filestem/1k.contigs.fasta.db --num-threads 30"
-sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep.out -e drep.err -n 30 --wrap=“anvi-profile -i spades.$filestem/1k.contigs.fasta.bowtie.db.sam.bam -c spades.$filestem/1k.contigs.fasta.db -T 30 -M 1000 --cluster-contigs -o spades.$filestem/1k.contigs.fasta.db.sam.bam_profile”
+#sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep3.out -e drep3.err -n 1 --wrap=“anvi-gen-contigs-database -f spades.$filestem/1k.contigs.fasta -o spades.$filestem/1k.contigs.fasta.db -n $filestem”
+#sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep4.out -e drep4.err -n 30 --wrap=“anvi-run-hmms -c spades.$filestem/1k.contigs.fasta.db --num-threads 30"
+sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep5.out -e drep5.err -n 30 --wrap=“anvi-profile -i spades.$filestem/1k.contigs.fasta.bowtie.db.sam.bam -c spades.$filestem/1k.contigs.fasta.db -T 30 -M 1000 --cluster-contigs -o spades.$filestem/1k.contigs.fasta.db.sam.bam_profile”
 done
 anvi-interactive -c 1k.contigs.fasta.db -p PROFILE.db
 anvi-summarize -c 1k.contigs.fasta.db -p PROFILE.db -C test -o test.out
