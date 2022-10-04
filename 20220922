@@ -77,7 +77,9 @@ cd $WORK/database/20220922
 
 
 ##reading 
+https://merenlab.org/tutorials/assembly-based-metagenomics/
 https://merenlab.org/2016/06/22/anvio-tutorial-v2/
+
 #anvio
 conda activate anvio-7.1
 for i in `ls *R1*gz | grep -v paired`
