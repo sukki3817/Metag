@@ -1,3 +1,10 @@
 #after assembly
 anvi-script-reformat-fasta 02_ASSEMBLY/final.contigs.fa -o 03_CONTIGS/contigs.fa --min-len 2500 --simplify-names --report name_conversions.txt
 anvi-script-refromat-fasta assembled_contigs -o name_of_output_file --min-len to_eliminate_short_reads --simplify-names --report name_conversions.txt
+
+#mapping
+##building index for the contigs
+bowtie2-build 03_CONTIGS/contigs.fa 04_MAPPING/contigs
+bowtie2-build input_file output_file
+##mapping
+bowtie2 --threads $NUM_THREADS -x 04_MAPPING/contigs -1 01_QC/Sample_01-QUALITY_PASSED_R1.fastq -2 01_QC/Sample_01-QUALITY_PASSED_R2.fastq -S 04_MAPPING/Sample_01.sam
