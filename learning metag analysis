@@ -1,0 +1,3 @@
+#after assembly
+anvi-script-reformat-fasta 02_ASSEMBLY/final.contigs.fa -o 03_CONTIGS/contigs.fa --min-len 2500 --simplify-names --report name_conversions.txt
+anvi-script-refromat-fasta assembled_contigs -o name_of_output_file --min-len to_eliminate_short_reads --simplify-names --report name_conversions.txt
