@@ -18,7 +18,9 @@ anvi-summarize -c 1k.contigs.fasta.db -p PROFILE.db -C test -o test.out
 
 #after assembly
 anvi-script-reformat-fasta 02_ASSEMBLY/final.contigs.fa -o 03_CONTIGS/contigs.fa --min-len 2500 --simplify-names --report name_conversions.txt
-anvi-script-refromat-fasta assembled_contigs -o name_of_output_file --min-len to_eliminate_short_reads --simplify-names --report name_conversions.txt
+anvi-script-reformat-fasta contigs.fa -o contigs-fixed.fa -l 1000 --simplify-names
+anvi-script-reformat-fasta assembled_contigs -o name_of_output_file --min-len to_eliminate_short_reads --simplify-names --report name_conversions.txt
+
 
 #mapping
 
@@ -52,7 +54,7 @@ anvi-gen-contigs-database -f fasta_file -o db_file_output -n contig_database_fil
 
 ##anvi-run-hmms
 anvi-run-hmms -c contigs.db
-anvi-run-hmms -c spades.$filestem/1k.contigs.fasta.db --num-threads 30"
+anvi-run-hmms -c spades.$filestem/1k.contigs.fasta.db --num-threads 30
 anvi-run-hmms -c db_file --num-threads num_thread
 
 #at this step, you can add more detailed information to contig.db file by running optional commands
@@ -64,3 +66,74 @@ anvi-profile -i input_indexed_bam_file -c db_file -T num_threads -M ? --cluster-
 
 
 
+
+######################################################################################
+#anvi-script-reformat-fasta(<30s)
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+sbatch -p cluster -t 4:00:00 --mem=100000 -J cat -o reformat.out -e reformat.err -n 30 \
+--wrap="anvi-script-reformat-fasta spades.$filestem/contigs.fasta \
+-l 1000 \
+--simplify-names \
+--prefix c \
+-o spades.$filestem/1k.contigs.fasta"
+done
+
+#bowtie2-build(quick)
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+bowtie2-build spades.$filestem/1k.contigs.fasta spades.$filestem/1k.contigs.fasta.index
+done
+
+#mapping with bowtie2
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+sbatch -p cluster -t 6:00:00 --mem=100000 -J cat -o drep2.out -e drep2.err -n 30 --wrap="bowtie2 --threads 30 -x spades.$filestem/1k.contigs.fasta.index -1 paired-$R1 -2 paired-$R2 -S spades.$filestem/1k.contigs.fasta.index.sam --no-unal"
+done
+
+#sorting and indexing sam file with anvi-init-bam(1m)
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+anvi-init-bam spades.$filestem/1k.contigs.fasta.index.sam -o spades.$filestem/1k.contigs.fasta.index.bam 
+done
+
+#anvi-gen-contigs-database
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep3.out -e drep3.err -n 1 \
+--wrap="anvi-gen-contigs-database -f spades.$filestem/1k.contigs.fasta -o spades.$filestem/1k.contigs.fasta.db -n $filestem"
+done
+
+#annotation using anvi-run-hmms
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem”_R1_001.fastq.gz”
+R2=$filestem”_R2_001.fastq.gz”
+sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep4.out -e drep4.err -n 30 --wrap="anvi-run-hmms --num-threads 30 -c spades.$filestem/1k.contigs.fasta.db"
+done
+
+#anvi-profile
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem”_R1_001.fastq.gz”
+R2=$filestem”_R2_001.fastq.gz”
+sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep5.out -e drep5.err -n 30 \
+--wrap="anvi-profile -i spades.$filestem/1k.contigs.fasta.index.bam -c spades.$filestem/1k.contigs.fasta.db -T 30 -M 1000 --cluster-contigs -o spades.$filestem/1k.contigs.profile"
+done
