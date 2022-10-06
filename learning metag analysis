@@ -21,19 +21,43 @@ anvi-script-reformat-fasta 02_ASSEMBLY/final.contigs.fa -o 03_CONTIGS/contigs.fa
 anvi-script-refromat-fasta assembled_contigs -o name_of_output_file --min-len to_eliminate_short_reads --simplify-names --report name_conversions.txt
 
 #mapping
+
 ##building index for the contigs
 bowtie2-build 03_CONTIGS/contigs.fa 04_MAPPING/contigs
 bowtie2-build input_file output_file
+
 ##mapping
 bowtie2 --threads $NUM_THREADS -x 04_MAPPING/contigs -1 01_QC/Sample_01-QUALITY_PASSED_R1.fastq -2 01_QC/Sample_01-QUALITY_PASSED_R2.fastq -S 04_MAPPING/Sample_01.sam
 bowtie2 --threads 30 -x spades.$filestem/1k.contigs.fasta.bowtie.db -1 paired-$R1 -2 paired-$R2 --no-unal -S spades.$filestem/1k.contigs.fasta.bowtie.db.sam”
 bowtie2 --threads num_threads -x input_file -1 R1_after_quality_filtering -2 R2_after_quality_filtering -S output_sam_file --no-unal(Suppress SAM records for reads that failed to align.)
+
 ##?
 samtools view -F 4 -bS 04_MAPPING/Sample_01.sam > 04_MAPPING/Sample_01-RAW.bam
+david skipped this command
+
 ##indexing bam file
 anvi-init-bam 04_MAPPING/Sample_01-RAW.bam -o 04_MAPPING/Sample_01.bam
 anvi-init-bam -o spades.$filestem/1k.contigs.fasta.bowtie.db.sam.bam spades.$filestem/1k.contigs.fasta.bowtie.db.sam
 aniv-init-bam bam_or_sam?_file_want_to_index -o indexed_bam_file
 
+##removing files 
+rm 04_MAPPING/Sample_01.sam 04_MAPPING/Sample_01-RAW.bam
+
+
+#creating anvio database
+##anvi-gen-contigs-database 
+anvi-gen-contigs-database -f contigs.fa -o contigs.db -n 'An example contigs database'
+anvi-gen-contigs-database -f spades.$filestem/1k.contigs.fasta -o spades.$filestem/1k.contigs.fasta.db -n $filestem
+anvi-gen-contigs-database -f fasta_file -o db_file_output -n contig_database_file
+
+##anvi-run-hmms
+anvi-run-hmms -c contigs.db
+anvi-run-hmms -c spades.$filestem/1k.contigs.fasta.db --num-threads 30"
+anvi-run-hmms -c db_file --num-threads num_thread
+
+#at this step, you can add more detailed information to contig.db file by running optional commands
+
+##
+anvi-profile -i spades.$filestem/1k.contigs.fasta.bowtie.db.sam.bam -c spades.$filestem/1k.contigs.fasta.db -T 30 -M 1000 --cluster-contigs -o spades.$filestem/1k.contigs.fasta.db.sam.bam_profile”
 
 
