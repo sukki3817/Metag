@@ -139,7 +139,28 @@ sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep5.out -e drep5.err -n 3
 done
 
 #anvi-interactive
+##download files to the local machine
+cd /home/dneedham/Documents/sukki
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20220922/spades.220800001119-DS32_22Aug1119-DL032_S32_L001/1k.contigs.profile/PROFILE.db .
 
-anvi-interactive -c 1k.contigs.fasta.db -p PROFILE.db
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20220922/spades.220800001119-DS32_22Aug1119-DL032_S32_L001/1k.contigs.fasta.db .
+mv ./PROFILE.db ./32_PROFILE.db
+mv ./1k.contigs.fasta.db ./32_1k.contigs.fasta.db
+
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20220922/spades.220800001119-DS33_22Aug1119-DL033_S33_L001/1k.contigs.profile/PROFILE.db .
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20220922/spades.220800001119-DS33_22Aug1119-DL033_S33_L001/1k.contigs.fasta.db .
+mv ./PROFILE.db ./33_PROFILE.db
+mv ./1k.contigs.fasta.db ./33_1k.contigs.fasta.db
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20220922/spades.220800001119-DS34_22Aug1119-DL034_S34_L001/1k.contigs.profile/PROFILE.db .
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20220922/spades.220800001119-DS34_22Aug1119-DL034_S34_L001/1k.contigs.fasta.db .
+mv ./PROFILE.db ./34_PROFILE.db
+mv ./1k.contigs.fasta.db ./34_1k.contigs.fasta.db
+
+anvi-interactive -c 32_1k.contigs.fasta.db -p 32_PROFILE.db
+anvi-summarize -c 32_1k.contigs.fasta.db -p 32_PROFILE.db -C binning1 -o binning1.out
+
+#uploading archaea contigs to the server
+scp /home/dneedham/Documents/sukki/binning1.out/bin_by_bin/Bin_1/Bin_1-contigs.fa smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20220922/
+
 
 
