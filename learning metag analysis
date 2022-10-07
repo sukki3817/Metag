@@ -1,6 +1,6 @@
 #david's script
 for i in `ls *R1*gz | grep -v paired`
-do
+do/1k
 filestem=`basename $i _R1_001.fastq.gz`
 R1=$filestem”_R1_001.fastq.gz”
 R2=$filestem”_R2_001.fastq.gz”
@@ -137,3 +137,9 @@ R2=$filestem”_R2_001.fastq.gz”
 sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep5.out -e drep5.err -n 30 \
 --wrap="anvi-profile -i spades.$filestem/1k.contigs.fasta.index.bam -c spades.$filestem/1k.contigs.fasta.db -T 30 -M 1000 --cluster-contigs -o spades.$filestem/1k.contigs.profile"
 done
+
+#anvi-interactive
+
+anvi-interactive -c 1k.contigs.fasta.db -p PROFILE.db
+
+
