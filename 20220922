@@ -97,3 +97,10 @@ sbatch -p cluster -t 24:00:00 --mem=100000 -J cat -o drep5.out -e drep5.err -n 3
 done
 anvi-interactive -c 1k.contigs.fasta.db -p PROFILE.db
 anvi-summarize -c 1k.contigs.fasta.db -p PROFILE.db -C test -o test.out
+
+
+--------20230210------
+ssh -L 8080:localhost:8080 smomw536@nesh-fe.rz.uni-kiel.de
+conda activate anvio-7.1
+anvi-interactive -c /gxfs_work1/geomar/smomw536/database/20220922/spades.220800001119-DS32_22Aug1119-DL032_S32_L001/1k.contigs.fasta.db -p /gxfs_work1/geomar/smomw536/database/20220922/spades.220800001119-DS32_22Aug1119-DL032_S32_L001/1k.contigs.profile/PROFILE.db --server-only -P 8080
+google chrome http://localhost:8080
