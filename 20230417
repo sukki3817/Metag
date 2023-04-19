@@ -1,0 +1,136 @@
+ssh smomw536@nesh-fe.rz.uni-kiel.de
+ssh -L 8080:localhost:8080 smomw536@nesh-fe.rz.uni-kiel.de
+cd $WORK/database/
+mkdir 20230417
+mv 20230413/amplicon_reads/230300000400-DS27.23Mar400-DL027_S27_L001_R* ./20230417/
+cd 20230417
+
+conda activate fastqc
+fastqc 230300000400-DS27.23Mar400-DL027_S27_L001_R*
+
+#local com
+/Users/ksookyoung/work/fastqc
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20230417/*.html .
+
+conda activate trimmomatic
+#quality trimming by trimmomatic
+for i in *R1*gz
+do 
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+sbatch -p cluster -t 4:00:00 --mem=100000 -J trimmomatic -o trim.out -e trim.err -n 30 --wrap="trimmomatic PE -threads 30 $R1 $R2 paired-$R1 unpaired-paired-$R1 paired-$R2 unpaired-$R2 ILLUMINACLIP:$HOME/anaconda3/envs/trimmomatic/share/trimmomatic-0.39-2/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:25:30 MINLEN:50"
+done
+
+
+#assembly by spades
+conda deactivate
+conda activate spades-3.15.5
+#spades.py is not working
+##downloaded spades again (https://github.com/ablab/spades/blob/spades_3.15.5/README.md) on $WORK dir
+##working correctly
+
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+sbatch -p cluster -t 4:00:00 --mem=100000 -J spades -o drep.out -e drep.err -n 30 --wrap="spades.py --sc -m 100 --pe1-1 paired-$R1 --pe1-2 paired-$R2 -o spades.$filestem -t 32 -k 21,33,55,77,99,127"
+done
+conda deactivate
+
+#reformat/filter for short contigs
+conda activate anvio-7.1
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+sbatch -p cluster -t 4:00:00 --mem=100000 -J reformat -o reform.out -e reform.err -n 30 --wrap="anvi-script-reformat-fasta -l 1000 --simplify-names --prefix c -o spades.$filestem/1k.contigs.fasta spades.$filestem/contigs.fasta"
+done
+
+##output
+Input ........................................: spades.230300000400-DS27.23Mar400-DL027_S27_L001/contigs.fasta
+Output .......................................: spades.230300000400-DS27.23Mar400-DL027_S27_L001/1k.contigs.fasta
+Minimum length ...............................: 1,000
+Max % gaps allowed ...........................: 100.00%
+Total num contigs ............................: 7,189
+Total num nucleotides ........................: 6,108,689
+Contigs removed ..............................: 6346 (88.27% of all)
+Nucleotides removed ..........................: 3484362 (57.04% of all)
+Nucleotides modified .........................: 0 (0.00% of all)
+Deflines simplified ..........................: True
+
+#mapping w bowtie
+
+##bowtie2-building
+bowtie2-build spades.$filestem/1k.contigs.fasta spades.$filestem/1k.contigs.fasta.bowtie.db
+
+##bowtie2 mapping
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+sbatch -p cluster -t 4:00:00 --mem=100000 -J reformat -o reform.out -e reform.err -n 30 --wrap="bowtie2 --threads 30 -x spades.$filestem/1k.contigs.fasta.bowtie.db -1 paired-$R1 -2 paired-$R2 --no-unal -S spades.$filestem/1k.contigs.fasta.bowtie.db.sam"
+done
+###output
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LC_CTYPE = "UTF-8",
+	LANG = (unset)
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+206155 reads; of these:
+  206155 (100.00%) were paired; of these:
+    142354 (69.05%) aligned concordantly 0 times
+    61336 (29.75%) aligned concordantly exactly 1 time
+    2465 (1.20%) aligned concordantly >1 times
+    ----
+    142354 pairs aligned concordantly 0 times; of these:
+      32014 (22.49%) aligned discordantly 1 time
+    ----
+    110340 pairs aligned 0 times concordantly or discordantly; of these:
+      220680 mates make up the pairs; of these:
+        193994 (87.91%) aligned 0 times
+        24274 (11.00%) aligned exactly 1 time
+        2412 (1.09%) aligned >1 times
+52.95% overall alignment rate
+
+
+##
+anvi-init-bam -o spades.$filestem/1k.contigs.fasta.bowtie.db.sam.bam spades.$filestem/1k.contigs.fasta.bowtie.db.sam
+
+
+##
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+sbatch -p cluster -t 24:00:00 --mem=100000 -J dbgen -o dbgen.out -e dbgen.err -n 1 --wrap="anvi-gen-contigs-database -f spades.$filestem/1k.contigs.fasta -o spades.$filestem/1k.contigs.fasta.db -n $filestem"
+done
+
+
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+sbatch -p cluster -t 24:00:00 --mem=100000 -J hmm -o hmm.out -e hmm.err -n 30 --wrap="anvi-run-hmms -c spades.$filestem/1k.contigs.fasta.db --num-threads 30"
+done
+
+
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+sbatch -p cluster -t 24:00:00 --mem=100000 -J profile -o profile.out -e profile.err -n 1 --wrap="anvi-profile -i spades.$filestem/1k.contigs.fasta.bowtie.db.sam.bam -c spades.$filestem/1k.contigs.fasta.db -T 30 -M 1000 --cluster-contigs -o spades.$filestem/1k.contigs.fasta.db.sam.bam_profile"
+done
+
+anvi-interactive -p ./spades.230300000400-DS27.23Mar400-DL027_S27_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230300000400-DS27.23Mar400-DL027_S27_L001/1k.contigs.fasta.db --server-only -P 8080
+
+zgrep -c "@M50181" $WORK/database/20230417/230300000400-DS27.23Mar400-DL027_S27_L001_*
