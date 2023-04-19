@@ -37,7 +37,7 @@ R1=$filestem"_R1_001.fastq.gz"
 R2=$filestem"_R2_001.fastq.gz"
 sbatch -p cluster -t 4:00:00 --mem=100000 -J spades -o drep.out -e drep.err -n 30 --wrap="spades.py --sc -m 100 --pe1-1 paired-$R1 --pe1-2 paired-$R2 -o spades.$filestem -t 32 -k 21,33,55,77,99,127"
 done
-conda deactivate
+
 
 #reformat/filter for short contigs
 conda activate anvio-7.1
