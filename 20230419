@@ -155,3 +155,6 @@ anvi-interactive -p ./spades.230300000400-DS27.23Mar400-DL027_S27_L001/1k.contig
 
 
 
+
+  
+anvi-summarize -c ./spades.230300000400-DS27.23Mar400-DL027_S27_L001/1k.contigs.fasta.db -p ./spades.230300000400-DS27.23Mar400-DL027_S27_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -o MY_SUMMARY -C binning
