@@ -108,18 +108,111 @@ anvi-interactive -p ./spades.230600001074-DS202_23Jun1074-DL202_S202_L001/1k.con
 anvi-interactive -p ./spades.230600001074-DS203_23Jun1074-DL203_S203_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS203_23Jun1074-DL203_S203_L001/1k.contigs.fasta.db --server-only -P 8080
 anvi-interactive -p ./spades.230600001074-DS204_23Jun1074-DL204_S204_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS204_23Jun1074-DL204_S204_L001/1k.contigs.fasta.db --server-only -P 8080
 anvi-interactive -p ./spades.230600001074-DS205_23Jun1074-DL205_S205_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS205_23Jun1074-DL205_S205_L001/1k.contigs.fasta.db --server-only -P 8080
-anvi-interactive -p ./spades.230600001074-DS206_23Jun1074-DL206_S206_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS206_23Jun1074-DL206_S206_L001/1k.contigs.fasta.db --server-only -P 8081
-anvi-interactive -p ./spades.230600001074-DS208_23Jun1074-DL208_S208_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS208_23Jun1074-DL208_S208_L001/1k.contigs.fasta.db --server-only -P 8081
-anvi-interactive -p ./spades.230600001074-DS209_23Jun1074-DL209_S209_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS209_23Jun1074-DL209_S209_L001/1k.contigs.fasta.db --server-only -P 8081
-anvi-interactive -p ./spades.230600001074-DS210_23Jun1074-DL210_S210_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS210_23Jun1074-DL210_S210_L001/1k.contigs.fasta.db --server-only -P 8081
-anvi-interactive -p ./spades.230600001074-DS211_23Jun1074-DL211_S211_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS211_23Jun1074-DL211_S211_L001/1k.contigs.fasta.db --server-only -P 8081
-anvi-interactive -p ./spades.230600001074-DS212_23Jun1074-DL212_S212_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS212_23Jun1074-DL212_S212_L001/1k.contigs.fasta.db --server-only -P 8081
-anvi-interactive -p ./spades.230600001074-DS213_23Jun1074-DL213_S213_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS213_23Jun1074-DL213_S213_L001/1k.contigs.fasta.db --server-only -P 8081
-anvi-interactive -p ./spades.230600001074-DS214_23Jun1074-DL214_S214_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS214_23Jun1074-DL214_S214_L001/1k.contigs.fasta.db --server-only -P 8081
-anvi-interactive -p ./spades.230600001074-DS217_23Jun1074-DL217_S217_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS217_23Jun1074-DL217_S217_L001/1k.contigs.fasta.db --server-only -P 8082
-
-
-
-spades.230600001074-DS214_23Jun1074-DL214_S214_L001
 anvi-interactive -p ./spades.230600001074-DS206_23Jun1074-DL206_S206_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS206_23Jun1074-DL206_S206_L001/1k.contigs.fasta.db --server-only -P 8080
+anvi-interactive -p ./spades.230600001074-DS208_23Jun1074-DL208_S208_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS208_23Jun1074-DL208_S208_L001/1k.contigs.fasta.db --server-only -P 8080
+anvi-interactive -p ./spades.230600001074-DS209_23Jun1074-DL209_S209_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS209_23Jun1074-DL209_S209_L001/1k.contigs.fasta.db --server-only -P 8080
+anvi-interactive -p ./spades.230600001074-DS210_23Jun1074-DL210_S210_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS210_23Jun1074-DL210_S210_L001/1k.contigs.fasta.db --server-only -P 8080
+anvi-interactive -p ./spades.230600001074-DS211_23Jun1074-DL211_S211_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS211_23Jun1074-DL211_S211_L001/1k.contigs.fasta.db --server-only -P 8080
+anvi-interactive -p ./spades.230600001074-DS212_23Jun1074-DL212_S212_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS212_23Jun1074-DL212_S212_L001/1k.contigs.fasta.db --server-only -P 8080
+anvi-interactive -p ./spades.230600001074-DS213_23Jun1074-DL213_S213_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS213_23Jun1074-DL213_S213_L001/1k.contigs.fasta.db --server-only -P 8080
+anvi-interactive -p ./spades.230600001074-DS214_23Jun1074-DL214_S214_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS214_23Jun1074-DL214_S214_L001/1k.contigs.fasta.db --server-only -P 8081
+anvi-interactive -p ./spades.230600001074-DS217_23Jun1074-DL217_S217_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS217_23Jun1074-DL217_S217_L001/1k.contigs.fasta.db --server-only -P 8080
+anvi-interactive -p ./spades.230600001074-DS219_23Jun1074-DL219_S219_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS219_23Jun1074-DL219_S219_L001/1k.contigs.fasta.db --server-only -P 8080
 
+
+
+anvi-show-collections-and-bins -p spades.230600001074-DS201_23Jun1074-DL201_S201_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db
+
+anvi-interactive -p ./spades.230600001074-DS201_23Jun1074-DL201_S201_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS201_23Jun1074-DL201_S201_L001/1k.contigs.fasta.db --server-only -P 8080
+
+
+#####201 6a (625)
+anvi-summarize -c ./spades.230600001074-DS201_23Jun1074-DL201_S201_L001/1k.contigs.fasta.db \
+-p ./spades.230600001074-DS201_23Jun1074-DL201_S201_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db \
+-o ./spades.230600001074-DS201_23Jun1074-DL201_S201_L001/SUMMARY \
+-C default
+
+spades.230600001074-DS201_23Jun1074-DL201_S201_L001/SUMMARY/bin_by_bin/Bin_1/Bin_1-contigs.fa
+
+
+#####202 7a (352)
+anvi-summarize -c ./spades.230600001074-DS202_23Jun1074-DL202_S202_L001/1k.contigs.fasta.db \
+-p ./spades.230600001074-DS202_23Jun1074-DL202_S202_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db \
+-o ./spades.230600001074-DS202_23Jun1074-DL202_S202_L001/SUMMARY \
+-C default
+
+spades.230600001074-DS202_23Jun1074-DL202_S202_L001/SUMMARY/bin_by_bin/Bin_7a/Bin_7a-contigs.fa
+
+######203 54a (52a)
+anvi-summarize -c ./spades.230600001074-DS203_23Jun1074-DL203_S203_L001/1k.contigs.fasta.db \
+-p ./spades.230600001074-DS203_23Jun1074-DL203_S203_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db \
+-o ./spades.230600001074-DS203_23Jun1074-DL203_S203_L001/SUMMARY \
+-C default
+
+spades.230600001074-DS203_23Jun1074-DL203_S203_L001/SUMMARY/bin_by_bin/Bin_52a/Bin_52a-contigs.fa 
+
+#####204 571-39(897)
+anvi-summarize -c ./spades.230600001074-DS204_23Jun1074-DL204_S204_L001/1k.contigs.fasta.db \
+-p ./spades.230600001074-DS204_23Jun1074-DL204_S204_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db \
+-o ./spades.230600001074-DS204_23Jun1074-DL204_S204_L001/SUMMARY \
+-C default
+
+spades.230600001074-DS204_23Jun1074-DL204_S204_L001/SUMMARY/bin_by_bin/Bin_571-39/Bin_571-39-contigs.fa
+
+#####205 68KS (c8f)
+anvi-summarize -c ./spades.230600001074-DS206_23Jun1074-DL206_S206_L001/1k.contigs.fasta.db \
+-p ./spades.230600001074-DS206_23Jun1074-DL206_S206_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db \
+-o ./spades.230600001074-DS206_23Jun1074-DL206_S206_L001/SUMMARY \
+-C default
+
+spades.230600001074-DS205_23Jun1074-DL205_S205_L001/SUMMARY/bin_by_bin/Bin_68KS/Bin_68KS-contigs.fa
+
+
+####206 7KS (352)
+
+anvi-summarize -c ./spades.230600001074-DS206_23Jun1074-DL206_S206_L001/1k.contigs.fasta.db \
+-p ./spades.230600001074-DS206_23Jun1074-DL206_S206_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db \
+-o ./spades.230600001074-DS206_23Jun1074-DL206_S206_L001/SUMMARY \
+-C default
+
+spades.230600001074-DS206_23Jun1074-DL206_S206_L001/SUMMARY/bin_by_bin/Bin_7KS/Bin_7KS-contigs.fa
+
+
+####208 571-17 (897)
+
+anvi-summarize -c ./spades.230600001074-DS208_23Jun1074-DL208_S208_L001/1k.contigs.fasta.db \
+-p ./spades.230600001074-DS208_23Jun1074-DL208_S208_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db \
+-o ./spades.230600001074-DS208_23Jun1074-DL208_S208_L001/SUMMARY \
+-C default
+
+spades.230600001074-DS208_23Jun1074-DL208_S208_L001/SUMMARY/bin_by_bin/Bin_571-17/Bin_571-17-contigs.fa
+
+
+#### 219 580-32 (657)
+anvi-summarize -c ./spades.230600001074-DS219_23Jun1074-DL219_S219_L001/1k.contigs.fasta.db \
+-p ./spades.230600001074-DS219_23Jun1074-DL219_S219_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db \
+-o ./spades.230600001074-DS219_23Jun1074-DL219_S219_L001/SUMMARY \
+-C default
+
+spades.230600001074-DS219_23Jun1074-DL219_S219_L001/SUMMARY/bin_by_bin/Bin_580-32/Bin_580-32-contigs.fa
+
+
+###download
+/Users/ksookyoung/work/20230706mg
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20230706mg/spades.230600001074-DS201_23Jun1074-DL201_S201_L001/SUMMARY/bin_by_bin/Bin_1/Bin_1-contigs.fa .
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20230706mg/spades.230600001074-DS202_23Jun1074-DL202_S202_L001/SUMMARY/bin_by_bin/Bin_7a/Bin_7a-contigs.fa .
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20230706mg/spades.230600001074-DS203_23Jun1074-DL203_S203_L001/SUMMARY/bin_by_bin/Bin_52a/Bin_52a-contigs.fa .
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20230706mg/spades.230600001074-DS204_23Jun1074-DL204_S204_L001/SUMMARY/bin_by_bin/Bin_571-39/Bin_571-39-contigs.fa .
+
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20230706mg/spades.230600001074-DS205_23Jun1074-DL205_S205_L001/SUMMARY/bin_by_bin/Bin_68KS/Bin_68KS-contigs.fa .
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20230706mg/spades.230600001074-DS206_23Jun1074-DL206_S206_L001/SUMMARY/bin_by_bin/Bin_7KS/Bin_7KS-contigs.fa .
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20230706mg/spades.230600001074-DS208_23Jun1074-DL208_S208_L001/SUMMARY/bin_by_bin/Bin_571-17/Bin_571-17-contigs.fa .
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20230706mg/spades.230600001074-DS219_23Jun1074-DL219_S219_L001/SUMMARY/bin_by_bin/Bin_580-32/Bin_580-32-contigs.fa .
+
+
+scp -r smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20220922/32_archaea_bin/ .
+scp -r smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20230417/MY_SUMMARY/bin_by_bin/Bin_1/ .
+
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20230706mg/spades.230600001074-DS203_23Jun1074-DL203_S203_L001/SUMMARY/bin_by_bin/Bin_10/Bin_10-contigs.fa .
+
+spades.230600001074-DS202_23Jun1074-DL202_S202_L001/1k.contigs.fasta.bowtie.db.sam.bam
