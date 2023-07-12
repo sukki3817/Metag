@@ -215,4 +215,76 @@ scp -r smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/2023
 
 scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20230706mg/spades.230600001074-DS203_23Jun1074-DL203_S203_L001/SUMMARY/bin_by_bin/Bin_10/Bin_10-contigs.fa .
 
-spades.230600001074-DS202_23Jun1074-DL202_S202_L001/1k.contigs.fasta.bowtie.db.sam.bam
+#bam file check
+scp smomw536@nesh-fe.rz.uni-kiel.de:/gxfs_work1/geomar/smomw536/database/20230706mg/spades.230600001074-DS202_23Jun1074-DL202_S202_L001/1k.contigs.fasta.bowtie.db.sam.bam .
+
+
+
+##########################20230712 fastani##################################
+conda create fastANI
+conda activate fastANI
+conda install -c bioconda fastani
+
+cd $WORK/database
+fastANI -q genome1.fa --rl genome_list.txt -o output.txt
+
+$ ./fastANI --ql [QUERY_LIST] --rl [REFERENCE_LIST] -o [OUTPUT_FILE]
+
+fastANI --ql query_list --rl ref_list -o fastANIout
+
+
+query/ref_list
+./20230417/MY_SUMMARY/bin_by_bin/Bin_1/Bin_1-contigs.fa
+./20230706mg/spades.230600001074-DS202_23Jun1074-DL202_S202_L001/SUMMARY/bin_by_bin/Bin_7a/Bin_7a-contigs.fa
+./20230706mg/spades.230600001074-DS206_23Jun1074-DL206_S206_L001/SUMMARY/bin_by_bin/Bin_7KS/Bin_7KS-contigs.fa
+
+fastANI --ql query_list --rl ref_list -o fastANIout
+
+##output
+./20230417/MY_SUMMARY/bin_by_bin/Bin_1/Bin_1-contigs.fa	./20230417/MY_SUMMARY/bin_by_bin/Bin_1/Bin_1-contigs.fa	100	417	418
+./20230417/MY_SUMMARY/bin_by_bin/Bin_1/Bin_1-contigs.fa	./20230706mg/spades.230600001074-DS206_23Jun1074-DL206_S206_L001/SUMMARY/bin_by_bin/Bin_7KS/Bin_7KS-contigs.f86.7589	365	418
+./20230417/MY_SUMMARY/bin_by_bin/Bin_1/Bin_1-contigs.fa	./20230706mg/spades.230600001074-DS202_23Jun1074-DL202_S202_L001/SUMMARY/bin_by_bin/Bin_7a/Bin_7a-contigs.fa	86.7552	327	418
+./20230706mg/spades.230600001074-DS202_23Jun1074-DL202_S202_L001/SUMMARY/bin_by_bin/Bin_7a/Bin_7a-contigs.fa	./20230706mg/spades.230600001074-DS202_23Jun1074-DL202_S202_L001/SUMMARY/bin_by_bin/Bin_7a/Bin_7a-contigs.fa	100	511	514
+./20230706mg/spades.230600001074-DS202_23Jun1074-DL202_S202_L001/SUMMARY/bin_by_bin/Bin_7a/Bin_7a-contigs.fa	./20230706mg/spades.230600001074-DS206_23Jun1074-DL206_S206_L001/SUMMARY/bin_by_bin/Bin_7KS/Bin_7KS-contigs.fa	99.9622	507	514
+./20230706mg/spades.230600001074-DS202_23Jun1074-DL202_S202_L001/SUMMARY/bin_by_bin/Bin_7a/Bin_7a-contigs.fa	./20230417/MY_SUMMARY/bin_by_bin/Bin_1/Bin_1-contigs.fa	86.5732	340	514
+./20230706mg/spades.230600001074-DS206_23Jun1074-DL206_S206_L001/SUMMARY/bin_by_bin/Bin_7KS/Bin_7KS-contigs.fa	./20230706mg/spades.230600001074-DS206_23Jun1074-DL206_S206_L001/SUMMARY/bin_by_bin/Bin_7KS/Bin_7KS-contigs.fa	100	555	557
+./20230706mg/spades.230600001074-DS206_23Jun1074-DL206_S206_L001/SUMMARY/bin_by_bin/Bin_7KS/Bin_7KS-contigs.fa	./20230706mg/spades.230600001074-DS202_23Jun1074-DL202_S202_L001/SUMMARY/bin_by_bin/Bin_7a/Bin_7a-contigs.fa	99.8881	496	557
+./20230706mg/spades.230600001074-DS206_23Jun1074-DL206_S206_L001/SUMMARY/bin_by_bin/Bin_7KS/Bin_7KS-contigs.fa	./20230417/MY_SUMMARY/bin_by_bin/Bin_1/Bin_1-contigs.fa	86.7321	356	557
+
+###try to bin 7a from april again
+
+anvi-summarize -c ./spades.230300000400-DS27.23Mar400-DL027_S27_L001/1k.contigs.fasta.db \
+-p ./spades.230300000400-DS27.23Mar400-DL027_S27_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db \
+-o ./spades.230300000400-DS27.23Mar400-DL027_S27_L001/SUMMARY \
+-C default
+
+###fastANI again
+
+query/ref_list
+./20230419/spades.230300000400-DS27.23Mar400-DL027_S27_L001/SUMMARY/bin_by_bin/Bin_1/Bin_1-contigs.fa
+./20230706mg/spades.230600001074-DS202_23Jun1074-DL202_S202_L001/SUMMARY/bin_by_bin/Bin_7a/Bin_7a-contigs.fa
+./20230706mg/spades.230600001074-DS206_23Jun1074-DL206_S206_L001/SUMMARY/bin_by_bin/Bin_7KS/Bin_7KS-contigs.fa
+####result was the same
+
+query/ref_list2
+./20220922/32_archaea_bin/Bin_1-contigs.fa
+./20230706mg/spades.230600001074-DS219_23Jun1074-DL219_S219_L001/SUMMARY/bin_by_bin/Bin_580-32/Bin_580-32-contigs.fa
+
+fastANI --ql query_list2 --rl ref_list2 -o fastANIout_657
+###result : 98% same
+
+
+#######check the contigs in anvio######
+$ anvi-gen-contigs-database -f contigs.fa -o contigs.db -n 'An example contigs database'
+
+for i in `ls *R1*gz | grep -v paired`
+do
+filestem=`basename $i _R1_001.fastq.gz`
+R1=$filestem"_R1_001.fastq.gz"
+R2=$filestem"_R2_001.fastq.gz"
+sbatch -p cluster -t 24:00:00 --mem=100000 -J dbgen -o dbgen.out -e dbgen.err -n 1 --wrap="anvi-gen-contigs-database -f spades.$filestem/1k.contigs.fasta -o spades.$filestem/1k.contigs.fasta.db -n $filestem"
+done
+
+contig file from 32a, 580-19(219)
+
+
