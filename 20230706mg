@@ -102,6 +102,7 @@ wget -bqc https://kaiju-idx.s3.eu-central-1.amazonaws.com/2023/kaiju_db_refseq_n
 
 sbatch --job-name=iphop_db --cpus-per-task=10 --mem=32000 --time=48:00:00 --partition=data --wrap="echo yes | curl -s -o kaiju_db_refseq_nr_2023-06-17.tgz https://kaiju-idx.s3.eu-central-1.amazonaws.com/2023/kaiju_db_refseq_nr_2023-06-17.tgz"
 
+
 ###
 anvi-interactive -p ./spades.230600001074-DS201_23Jun1074-DL201_S201_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS201_23Jun1074-DL201_S201_L001/1k.contigs.fasta.db --server-only -P 8080
 anvi-interactive -p ./spades.230600001074-DS202_23Jun1074-DL202_S202_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS202_23Jun1074-DL202_S202_L001/1k.contigs.fasta.db --server-only -P 8080
@@ -286,5 +287,9 @@ sbatch -p cluster -t 24:00:00 --mem=100000 -J dbgen -o dbgen.out -e dbgen.err -n
 done
 
 contig file from 32a, 580-19(219)
+
+
+anvi-interactive -c /gxfs_work1/geomar/smomw536/database/20220922/spades.220800001119-DS32_22Aug1119-DL032_S32_L001/1k.contigs.fasta.db -p /gxfs_work1/geomar/smomw536/database/20220922/spades.220800001119-DS32_22Aug1119-DL032_S32_L001/1k.contigs.profile/PROFILE.db --server-only -P 8081
+anvi-interactive -p ./spades.230600001074-DS219_23Jun1074-DL219_S219_L001/1k.contigs.fasta.db.sam.bam_profile/PROFILE.db -c ./spades.230600001074-DS219_23Jun1074-DL219_S219_L001/1k.contigs.fasta.db --server-only -P 8081
 
 
